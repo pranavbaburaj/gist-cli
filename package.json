@@ -1,0 +1,27 @@
+{
+  "name": "dev-cli",
+  "version": "1.0.0",
+  "description": "An unofficial dev.to cli :slight_smile:",
+  "main": "index.js",
+  "scripts": {
+    "start": "ts-node index.ts"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/pranavbaburaj/dev-cli.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/pranavbaburaj/dev-cli/issues"
+  },
+  "homepage": "https://github.com/pranavbaburaj/dev-cli#readme",
+  "dependencies": {
+    "@types/chalk": "^2.2.0",
+    "@types/node": "^15.0.2",
+    "axios": "^0.21.1",
+    "chalk": "^4.1.1",
+    "inquirer": "^8.0.0"
+  }
+}
