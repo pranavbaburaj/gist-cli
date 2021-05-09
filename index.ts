@@ -14,4 +14,4 @@ export function createApiKey() {
 }
 
 export const github = new Octokit({auth : createApiKey()})
-const parser = new GithubCli()
+const parser = new GithubCli(github)

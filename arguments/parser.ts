@@ -1,3 +1,4 @@
+import { Octokit } from '@octokit/core';
 import {argv} from 'process';
 import { GithubCliException } from '../exception';
 import {commands, performCommand} from './constants';
@@ -8,14 +9,16 @@ export class GithubCli {
   private command: string;
 
   private position: number = 0;
+  private client:Octokit;
 
   /**
    * @constructor
    * @param {Array<string> | undefined} args The list of command arguments
    */
-  constructor(args?: Array<string>) {
+  constructor(github:Octokit, args?: Array<string>) {
     this.arguments = args == undefined ? argv : args;
     this.length = this.arguments.length;
+    this.client = github
 
     if (this.length > 0) {
       this.arguments = this.arguments.slice(2);
@@ -101,7 +104,7 @@ export class GithubCli {
         }
       }
 
-      performCommand(command, params);
+      performCommand(command, params, this.client);
     } else {
       process.exit();
     }

@@ -1,4 +1,6 @@
+import { Octokit } from '@octokit/core';
 import {platform} from 'os';
+import { GithubUserRepos } from '../commands/repos';
 
 // the list of all the cli commands
 // along with the list of flags associated
@@ -7,6 +9,7 @@ export const commands: Map<string, Array<string>> = new Map<
   string,
   Array<string>
 >([
+    ["repos", ["user"]]
 ]);
 
 /**
@@ -16,6 +19,9 @@ export const commands: Map<string, Array<string>> = new Map<
 export const performCommand = (
   command: string,
   params: Map<string, string>,
+  client:Octokit
 ) => {
-  console.log(params)
+  if(command == "repos"){
+      const repos = new GithubUserRepos(params, client)
+  }
 };
