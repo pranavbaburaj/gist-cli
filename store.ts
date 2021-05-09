@@ -2,7 +2,7 @@ import { existsSync, mkdir, readFileSync, statSync, writeFileSync } from "fs";
 import { join } from "path";
 
 export class KeyStorage {
-    private static readonly directory:string = join(__dirname, "secrets", "secrets.json")
+    public static readonly directory:string = join(__dirname, "secrets", "secrets.json")
 
     public retriveApiKey = ():string | null => {
         const exists = this.checkFileExistence(KeyStorage.directory)

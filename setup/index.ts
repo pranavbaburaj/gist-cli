@@ -22,20 +22,21 @@ export class KeySetup {
 
     private createQueryPrompt = ():void => {
         prompt(KeySetup.questions).then((solutions) => {
-            if(KeySetup.validateKey(solutions.key)){
+            KeySetup.validateKey(solutions.key, (key:string) => {
                 writeFileSync(this.filename, JSON.stringify({
                     key : solutions.key
                 }))
-            }
+            })
         })
     }
 
-    public static validateKey = (key:string):any => {
+    public static validateKey = (key:string, callback:Function):any => {
         const kit = new Octokit({ auth : key})
         const data = kit.request("/user").then((data) => {
+            callback(key)
         }).catch((error:any) => {
+            console.log("NO")
             process.exit()
         })
-        return true
     }
 }
