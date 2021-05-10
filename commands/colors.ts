@@ -1,7 +1,16 @@
-import axios from "axios"
+import { readFileSync } from "fs";
+import { join } from "path";
 
-export async function createTextColors(language:string) {
-    const url = "https://gist.githubusercontent.com/robertpeteuil/bb2dc86f3b3e25d203664d61410bfa30/raw/bdee444dc2c4a2a5cb4421f3bd0c2e51ac3fd382/github-lang-colors.json"
-    const data = await (await axios.get(url)).data
-    console.log(data)
+export function createLanguageColor(language:string | null):string | undefined {
+    if(!language){
+        return undefined
+    }
+    const path:string = join(__dirname, 'json', "colors.json")
+    const data:Buffer = readFileSync(path)
+    const json:any = JSON.parse(data.toString())
+    const map:Map<string, string> = new Map<string, string>()
+    for(const value in json){
+        map.set(String(value), json[String(value)])
+    }
+    return map.get(language)
 }

@@ -1,8 +1,9 @@
 import { Octokit } from "@octokit/core";
 import axios from "axios";
-import { yellow } from "chalk";
+import { hex, yellow } from "chalk";
 import { table } from "table";
 import { GithubCliException } from "../exception";
+import { createLanguageColor } from "./colors";
 import { GithubRepo } from "./interface";
 
 export class GithubUserRepos {
@@ -23,6 +24,7 @@ export class GithubUserRepos {
 
         const { data } = await this.client.request("/user")
         const name = this.username || data.login
+        console.log(name)
         const url = `https://api.github.com/users/${name}/repos`
         axios.get(url).then((data) => {
             const output:Array<Array<string>> = [
@@ -31,11 +33,12 @@ export class GithubUserRepos {
             const repos:any = data.data
             for(let index=0; index<repos.length; index++){
                 const currentRepo = repos[index] as GithubRepo
+                let language:string = createLanguageColor(currentRepo.language) || "#FFFFF"
                 output.push([
                     currentRepo.name,
-                    yellow(currentRepo.private ? "Yeah" : "No"),
+                    currentRepo.private ? "Yeah" : "No",
                     currentRepo.stargazers_count,
-                    currentRepo.language,
+                    hex(language).bold(currentRepo.language),
                     currentRepo.license? currentRepo.license.name : "None"
                 ])
             }
