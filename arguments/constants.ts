@@ -9,7 +9,7 @@ export const commands: Map<string, Array<string>> = new Map<
   string,
   Array<string>
 >([
-    ["repos", ["user"]]
+    ["repos", ["user", "org"]]
 ]);
 
 /**
