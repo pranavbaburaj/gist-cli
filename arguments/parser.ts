@@ -1,6 +1,6 @@
-import { Octokit } from '@octokit/core';
+import {Octokit} from '@octokit/core';
 import {argv} from 'process';
-import { GithubCliException } from '../exception';
+import {GithubCliException} from '../exception';
 import {commands, performCommand} from './constants';
 
 export class GithubCli {
@@ -9,21 +9,21 @@ export class GithubCli {
   private command: string;
 
   private position: number = 0;
-  private client:Octokit;
+  private client: Octokit;
 
   /**
    * @constructor
    * @param {Array<string> | undefined} args The list of command arguments
    */
-  constructor(github:Octokit, args?: Array<string>) {
+  constructor(github: Octokit, args?: Array<string>) {
     this.arguments = args == undefined ? argv : args;
     this.length = this.arguments.length;
-    this.client = github
+    this.client = github;
 
     if (this.length > 0) {
       this.arguments = this.arguments.slice(2);
       this.command = this.arguments[0];
-      this.arguments = this.arguments.slice(1)
+      this.arguments = this.arguments.slice(1);
       this.length = this.arguments.length;
 
       this.parseCommandArguments();
@@ -40,11 +40,10 @@ export class GithubCli {
    * the flags and values
    */
   public parseCommandArguments = (): void | null => {
-      console.log(this.arguments)
+    console.log(this.arguments);
     let current: string | null = this.currentArgument();
     let commandParams: Map<string, string> = new Map<string, string>();
     while (current != null) {
-      
       if (!current.startsWith('--')) {
         const exception = new GithubCliException({
           message: `Invalid flag - ${current} ❎`,
@@ -81,7 +80,7 @@ export class GithubCli {
    */
   private validateParameters = (
     command: string,
-    params: Map<string, string>,
+    params: Map<string, string>
   ): void | null => {
     if (!Array.from(commands.keys()).includes(command)) {
       const exception = new GithubCliException({

@@ -1,5 +1,5 @@
-import { red, green } from 'chalk'
- 
+import {red, green} from 'chalk';
+
 export interface GithubCliExceptionParams {
   message: string;
   suggestion?: string;
@@ -37,9 +37,7 @@ export class GithubCliException {
   public throwException(fatal: boolean) {
     console.log(red(this.message));
     if (this.file) {
-      console.log(
-        red(`${this.file} ${this.line}`)
-      );
+      console.log(red(`${this.file} ${this.line}`));
     }
     if (this.suggestion) {
       console.log(green(this.suggestion));
