@@ -1,5 +1,6 @@
 import {Octokit} from '@octokit/core';
 import {platform} from 'os';
+import { GithubGists } from '../commands/gists/gist';
 import {GithubUserRepos} from '../commands/repos';
 import {GithubUserData} from '../commands/user/user';
 
@@ -12,6 +13,7 @@ export const commands: Map<string, Array<string>> = new Map<
 >([
   ['repos', ['user', 'org']],
   ['user', ['user']],
+  ["gists", []]
 ]);
 
 /**
@@ -27,5 +29,7 @@ export const performCommand = (
     const repos = new GithubUserRepos(params, client);
   } else if (command == 'user') {
     const user = new GithubUserData(params, client);
+  } else if(command == "gists"){
+    const gists = new GithubGists(params, client)
   }
 };
