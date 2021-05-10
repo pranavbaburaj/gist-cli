@@ -18,10 +18,6 @@ export class GithubUserRepos {
     }
 
     private assignUserParameter = async (username:string | undefined):Promise<null | void> => {
-        if(username){
-            return null
-        }
-
         const { data } = await this.client.request("/user")
         const name = this.username || data.login
         console.log(name)
@@ -38,7 +34,7 @@ export class GithubUserRepos {
                     currentRepo.name,
                     currentRepo.private ? "Yeah" : "No",
                     currentRepo.stargazers_count,
-                    hex(language).bold(currentRepo.language),
+                    hex(language).bold(currentRepo.language || "Unknown"),
                     currentRepo.license? currentRepo.license.name : "None"
                 ])
             }
