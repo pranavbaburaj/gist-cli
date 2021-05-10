@@ -54,6 +54,7 @@ function validateGistFiles(files:GistData):Array<Map<string, string>>{
                 }
             }
         } else {
+            
             const error = new GithubCliException({
                 message : `${directory} does not exist`
             }).throwException(true)
@@ -64,7 +65,8 @@ function validateGistFiles(files:GistData):Array<Map<string, string>>{
     return includes
 }
 
-export class CreateGists {
+
+ export class CreateGists {
     private readonly options:Array<any> = [
         {type:"input", name:"config", message:"Config file path"}
     ]
