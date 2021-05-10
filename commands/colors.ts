@@ -1,6 +1,9 @@
 import { readFileSync } from "fs";
 import { join } from "path";
 
+// Create the language color based on the language
+// passed in as the parameter, data is retrieved from
+// [__dirname]/json/data.json
 export function createLanguageColor(language:string | null):string | undefined {
     if(!language){
         return undefined

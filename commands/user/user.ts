@@ -5,13 +5,20 @@ import { bold, cyan } from "chalk";
 import { GithubCliException } from "../../exception";
 
 interface User {
+    // The login or the username
     login : string
+    // the id of the user
     id : number
+    // The url of the user avatar
     avatar_url : string
     html_url : string
+    // the name of the user
     name : string | null
-    company : string | null 
+    // the user company
+    company : string | null
+    // wensite url 
     blog : string | null
+    // user location
     location : string | null
     email : string | null
     hireable : boolean | null
