@@ -1,9 +1,9 @@
 import { Octokit } from "@octokit/core";
 import { existsSync, readdirSync, readFileSync, statSync } from "fs";
 import inquirer from "inquirer";
-import { join } from "path";
+import { basename, join } from "path";
 import { GithubCliException } from "../../exception";
-
+import open from 'open'
 interface GistData {
     files : Array<string>,
     directory : Array<string>,
@@ -38,11 +38,11 @@ function validateGistFiles(files:GistData):Array<Map<string, string>>{
         }
     }
 
-    // TODO: Correct the directory includes
     for(let idx=0; idx<files.directory.length; idx++){
         const directory = files.directory[idx]
         if(checkFileExistence(directory, false)){
             const directoryContent:Array<string> = readdirSync(directory)
+            console.log(directory, directoryContent)
             for(let contentIndex=0; contentIndex<directoryContent.length; contentIndex++){
                 if(statSync(join(
                     directory, directoryContent[contentIndex]
@@ -61,8 +61,21 @@ function validateGistFiles(files:GistData):Array<Map<string, string>>{
         }
     }
 
-    // TODO: Exclude files
     return includes
+}
+
+function createMapObject(files:Array<Map<string, string>>):any {
+    const map:Map<string, any> = new Map<string, string>()
+    for(let fileIndex=0; fileIndex<files.length; fileIndex++){
+        const keys = Array.from(files[fileIndex].keys())
+        for(let idx=0; idx<keys.length; idx++){
+            map.set(basename(keys[idx]), {
+                content : files[fileIndex].get(keys[idx])
+            })
+        }
+    }
+
+    return {files:Object.fromEntries(map)}
 }
 
 
@@ -85,8 +98,14 @@ function validateGistFiles(files:GistData):Array<Map<string, string>>{
                 const data = readFileSync(filename).toString()
                 try {
                     const json:GistData = JSON.parse(data) as GistData
-                    const validate:Array<Map<string, string>> = validateGistFiles(json)
-                    console.log(validate)
+                    const validate:any = createMapObject(validateGistFiles(json))
+                    this.client.request('POST /gists', validate).then((response) => {
+                        open(response.data.html_url || "")
+                    }).catch((error) => {
+                        const exception = new GithubCliException({
+                            message : error.message || error.info
+                        }).throwException(true)
+                    })
                 } catch(exception){
                     const error = new GithubCliException({
                         message : exception.info || exception.message
