@@ -44,11 +44,8 @@ Create a json file with all the information about the gist
 ```json
 {
   "files": [
-    // all the files
   ],
   "directory": [
-    // Directories
-    // All the files in the directory will be added to the gist
   ]
 }
 ```
