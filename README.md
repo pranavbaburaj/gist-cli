@@ -1,5 +1,4 @@
 # Gist CLI
-> The project is no longer developed
 
 Create gists from the command line
 
